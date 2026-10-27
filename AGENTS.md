@@ -23,7 +23,8 @@ Idioma da interface, do código de domínio e da documentação: português (BR)
 ```
 backend/    API FastAPI (Python)
 frontend/   SPA Vue 3 + PWA (TypeScript)
-docker-compose*.yml, Caddyfile, .env.example
+nginx/      templates de configuração do nginx (produção)
+docker-compose*.yml, .env.example
 ```
 
 ## Stack — backend (`backend/`)
@@ -67,13 +68,16 @@ app/
 - `docker-compose.yml` (base) + `docker-compose.dev.yml` (dev) + `docker-compose.prod.yml` (prod).
   Usar sempre esta nomenclatura (`docker-compose.<ambiente>.yml`).
 - Serviços: `db` (PostgreSQL), `api` (FastAPI), `worker` (fila de e-mail),
-  `web` (front-end), `mailpit` (só dev), `caddy` (só prod).
+  `web` (front-end), `mailpit` (só dev), `nginx` (só prod), `cloudflared` (prod, opcional).
 - **Dev**: `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` — código montado em
   volume; `uvicorn --reload` na API e Vite dev server com HMR no front (proxy `/api`
   para a API); e-mails capturados pelo **Mailpit** (nunca enviar e-mail real em dev).
-- **Prod**: build estático do Vue servido pelo **Caddy**, que também faz proxy de `/api`
-  para o Uvicorn e emite HTTPS automático. Mesma origem para front e API (sem CORS em
-  prod). `alembic upgrade head` roda no deploy.
+- **Prod**: publicado em **https://sala.bizo.dev.br** via **Cloudflare Tunnel**. O HTTPS
+  termina na Cloudflare; nenhuma porta pública é aberta no VPS. O **nginx** (HTTP,
+  `127.0.0.1:8080`) serve o build estático do Vue e faz proxy de `/api` para o Uvicorn.
+  IP real do visitante vem do cabeçalho `CF-Connecting-IP`. Configuração em
+  `nginx/*.template`. Mesma origem para front e API (sem CORS).
+  `alembic upgrade head` roda no deploy.
 - Configuração somente via variáveis de ambiente (`.env`, nunca versionado;
   manter `.env.example` atualizado).
 

@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.services.usuarios import garantir_usuario_inicial
+from app.services.usuarios import garantir_usuario_inicial, redefinir_usuario
 
 EMAIL = "professor@ifc.edu.br"
 SENHA = "senha-de-teste-123"
@@ -48,3 +48,15 @@ def test_login_bloqueia_apos_muitas_falhas(client: TestClient, db: Session) -> N
 def test_usuario_inicial_so_e_criado_uma_vez(db: Session) -> None:
     assert garantir_usuario_inicial(db, EMAIL, SENHA, "Professor") is True
     assert garantir_usuario_inicial(db, "outro@ifc.edu.br", SENHA, "Outro") is False
+
+
+def test_redefinir_usuario_troca_email_e_senha(client: TestClient, db: Session) -> None:
+    _criar_usuario(db)
+    redefinir_usuario(db, "Novo@ifc.edu.br", "nova-senha-456", "Novo")
+
+    antigo = client.post("/api/auth/login", json={"email": EMAIL, "senha": SENHA})
+    assert antigo.status_code == 401
+    novo = client.post(
+        "/api/auth/login", json={"email": "novo@ifc.edu.br", "senha": "nova-senha-456"}
+    )
+    assert novo.json()["nome"] == "Novo"

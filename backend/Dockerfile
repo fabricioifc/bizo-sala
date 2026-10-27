@@ -9,7 +9,7 @@ FROM base AS dev
 COPY requirements.txt requirements-dev.txt ./
 RUN pip install -r requirements-dev.txt
 COPY . .
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["sh", "-c", "alembic upgrade head && python -m app.cli usuario-inicial && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
 
 FROM base AS prod
 COPY requirements.txt ./
@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 COPY . .
 RUN useradd --create-home app
 USER app
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2 --proxy-headers --forwarded-allow-ips='*'"]
+CMD ["sh", "-c", "alembic upgrade head && python -m app.cli usuario-inicial && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2 --proxy-headers --forwarded-allow-ips='*'"]

@@ -12,5 +12,5 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM caddy:2-alpine AS prod
-COPY --from=build /app/dist /srv
+FROM nginx:1.27-alpine AS prod
+COPY --from=build /app/dist /usr/share/nginx/html

@@ -19,3 +19,16 @@ def garantir_usuario_inicial(db: Session, email: str, senha: str, nome: str) -> 
     db.add(Usuario(email=email.lower(), nome=nome, senha_hash=hash_senha(senha)))
     db.commit()
     return True
+
+
+def redefinir_usuario(db: Session, email: str, senha: str, nome: str) -> Usuario:
+    """Atualiza e-mail, nome e senha do usuário (sistema de usuário único)."""
+    usuario = db.scalar(select(Usuario).order_by(Usuario.id))
+    if usuario is None:
+        usuario = Usuario()
+        db.add(usuario)
+    usuario.email = email.lower()
+    usuario.nome = nome
+    usuario.senha_hash = hash_senha(senha)
+    db.commit()
+    return usuario

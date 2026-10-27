@@ -1,4 +1,5 @@
 # Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Publicação via Cloudflare Tunnel (sala.bizo.dev.br): ver README.
 services:
   db:
     restart: unless-stopped
@@ -10,24 +11,27 @@ services:
     environment:
       COOKIE_SECURE: "true"
 
-  caddy:
+  nginx:
     build:
       context: ./frontend
       target: prod
     restart: unless-stopped
-    environment:
-      DOMAIN: ${DOMAIN}
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy-data:/data
-      - caddy-config:/config
+      - ./nginx:/etc/nginx/templates:ro
+    # Só acessível pelo próprio VPS; o cloudflared aponta para http://localhost:8080
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - "127.0.0.1:${NGINX_PORT:-8080}:80"
     depends_on:
       - api
 
-volumes:
-  caddy-data:
-  caddy-config:
+  # Opcional: túnel em container (ative com --profile tunnel e TUNNEL_TOKEN no .env).
+  # Nesse caso, no painel da Cloudflare o serviço do hostname é http://nginx:80.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      - nginx

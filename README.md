@@ -16,7 +16,16 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 | API / documentação | http://localhost:8000/api/docs |
 | Mailpit (e-mails de dev) | http://localhost:8025 |
 
-O usuário inicial é criado com `ADMIN_EMAIL` / `ADMIN_SENHA` do `.env`.
+O usuário inicial é criado com `ADMIN_EMAIL` / `ADMIN_SENHA` do `.env` quando o banco
+está vazio. Para aplicar uma mudança desses valores a um usuário já existente:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d api
+```
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml exec api python -m app.cli redefinir-usuario
+```
 
 ### Verificações
 
@@ -36,7 +45,17 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml exec web npm run 
 
 ## Produção (VPS)
 
-1. Aponte o domínio (`DOMAIN` no `.env`) para o IP do VPS.
-2. `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`
+Publicado em **https://sala.bizo.dev.br** via Cloudflare Tunnel. O HTTPS fica com a
+Cloudflare; o nginx escuta só em `127.0.0.1:8080` no VPS.
 
-O Caddy emite o certificado HTTPS automaticamente.
+1. Suba a aplicação:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+   ```
+
+2. No túnel (Cloudflare Zero Trust → Networks → Tunnels → Public Hostname), crie
+   `sala.bizo.dev.br` apontando para:
+   - `http://localhost:8080`, se o `cloudflared` roda direto no VPS; ou
+   - `http://nginx:80`, se usar o `cloudflared` deste compose
+     (`TUNNEL_TOKEN` no `.env` e `--profile tunnel` no comando acima).

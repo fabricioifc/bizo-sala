@@ -1,0 +1,51 @@
+# Atrás do Cloudflare Tunnel: o HTTPS termina na Cloudflare e o cloudflared
+# entrega as requisições aqui em HTTP. Este servidor não é exposto publicamente.
+
+# IP real do visitante (enviado pela Cloudflare). Só confia em redes locais/Docker,
+# de onde o cloudflared se conecta.
+set_real_ip_from 127.0.0.1;
+set_real_ip_from 10.0.0.0/8;
+set_real_ip_from 172.16.0.0/12;
+set_real_ip_from 192.168.0.0/16;
+real_ip_header CF-Connecting-IP;
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name _;
+    server_tokens off;
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml
+               application/manifest+json;
+
+    client_max_body_size 10m;
+    root /usr/share/nginx/html;
+
+    include /etc/nginx/conf.d/seguranca.inc;
+
+    location /api/ {
+        proxy_pass http://api:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        # O cloudflared informa o esquema original (https)
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    }
+
+    # Arquivos com hash no nome: cache longo
+    location /assets/ {
+        include /etc/nginx/conf.d/seguranca.inc;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # Service worker, manifest e index nunca podem ficar presos em cache
+    location ~ ^/(sw\.js|registerSW\.js|manifest\.webmanifest|index\.html)$ {
+        include /etc/nginx/conf.d/seguranca.inc;
+        add_header Cache-Control "no-cache";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
