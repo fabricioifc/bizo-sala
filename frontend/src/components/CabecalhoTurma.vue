@@ -2,12 +2,13 @@
 import type { Turma } from '@/api/client'
 import { DIAS_SEMANA } from '@/utils/formato'
 
-defineProps<{ turma: Turma; aba: 'estudantes' | 'aulas' | 'conteudo' }>()
+defineProps<{ turma: Turma; aba: 'estudantes' | 'aulas' | 'conteudo' | 'notas' }>()
 
 const abas = [
   { id: 'aulas', rotulo: 'Aulas e chamada', icone: 'fas fa-calendar-check' },
-  { id: 'estudantes', rotulo: 'Estudantes', icone: 'fas fa-user-graduate' },
+  { id: 'notas', rotulo: 'Notas', icone: 'fas fa-clipboard-list' },
   { id: 'conteudo', rotulo: 'Conteúdo', icone: 'fas fa-book-open' },
+  { id: 'estudantes', rotulo: 'Estudantes', icone: 'fas fa-user-graduate' },
 ] as const
 </script>
 

@@ -16,6 +16,10 @@ services:
       SMTP_PORT: "1025"
       # Bind mount do Windows não propaga eventos de arquivo para o container
       WATCHFILES_FORCE_POLLING: "true"
+      # Caches fora da pasta montada (o OneDrive trava arquivos temporários)
+      RUFF_CACHE_DIR: /tmp/cache/ruff
+      MYPY_CACHE_DIR: /tmp/cache/mypy
+      PYTEST_ADDOPTS: "-p no:cacheprovider"
     volumes:
       - ./backend:/app
     ports:

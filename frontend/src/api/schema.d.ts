@@ -511,6 +511,77 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/turmas/{turma_id}/avaliacoes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_turmas__turma_id__avaliacoes_get"];
+        put?: never;
+        /** Criar */
+        post: operations["criar_api_turmas__turma_id__avaliacoes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/avaliacoes/{avaliacao_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Atualizar */
+        put: operations["atualizar_api_avaliacoes__avaliacao_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_avaliacoes__avaliacao_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/notas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar Notas */
+        get: operations["listar_notas_api_turmas__turma_id__notas_get"];
+        /** Salvar Notas */
+        put: operations["salvar_notas_api_turmas__turma_id__notas_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/boletim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Boletim */
+        get: operations["boletim_api_turmas__turma_id__boletim_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -612,6 +683,74 @@ export interface components {
              */
             dia_nao_letivo?: string | null;
         };
+        /** AvaliacaoEntrada */
+        AvaliacaoEntrada: {
+            /** Ciclo Id */
+            ciclo_id: number;
+            /** Nome */
+            nome: string;
+            /** Data */
+            data?: string | null;
+            /**
+             * Peso
+             * @default 1
+             */
+            peso: number | string;
+            /** @default REGULAR */
+            tipo: components["schemas"]["TipoAvaliacao"];
+            /** @description Só recuperação; vazio = padrão do curso */
+            substituicao?: components["schemas"]["Substituicao"] | null;
+            /** Substitui Avaliacao Id */
+            substitui_avaliacao_id?: number | null;
+        };
+        /** AvaliacaoSaida */
+        AvaliacaoSaida: {
+            /** Id */
+            id: number;
+            /** Ciclo Id */
+            ciclo_id: number;
+            /** Nome */
+            nome: string;
+            /** Data */
+            data: string | null;
+            /** Peso */
+            peso: number;
+            tipo: components["schemas"]["TipoAvaliacao"];
+            substituicao: components["schemas"]["Substituicao"] | null;
+            /** Substitui Avaliacao Id */
+            substitui_avaliacao_id: number | null;
+        };
+        /** Boletim */
+        Boletim: {
+            /** Media Aprovacao */
+            media_aprovacao: number;
+            /** Ciclos */
+            ciclos: components["schemas"]["CicloResumo"][];
+            /** Estudantes */
+            estudantes: components["schemas"]["BoletimEstudante"][];
+        };
+        /** BoletimEstudante */
+        BoletimEstudante: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Nome */
+            nome: string;
+            /** Matricula */
+            matricula: string;
+            /** Ativo */
+            ativo: boolean;
+            /** Ciclos */
+            ciclos: components["schemas"]["CicloDoEstudante"][];
+            /** Media Final */
+            media_final: number | null;
+            /** Percentual Presenca */
+            percentual_presenca: number | null;
+            /**
+             * Situacao
+             * @enum {string}
+             */
+            situacao: "EM_ANDAMENTO" | "APROVADO" | "ABAIXO_DA_MEDIA" | "REPROVADO_POR_FALTA";
+        };
         /** CancelamentoEntrada */
         CancelamentoEntrada: {
             /** Motivo */
@@ -680,6 +819,19 @@ export interface components {
             /** Estudantes */
             estudantes: components["schemas"]["ChamadaEstudante"][];
         };
+        /** CicloDoEstudante */
+        CicloDoEstudante: {
+            /** Ciclo Id */
+            ciclo_id: number;
+            /** Media */
+            media: number | null;
+            /** Media Sem Recuperacao */
+            media_sem_recuperacao: number | null;
+            /** Abaixo Da Media */
+            abaixo_da_media: boolean;
+            /** Substituicoes */
+            substituicoes: components["schemas"]["SubstituicaoSaida"][];
+        };
         /** CicloEntrada */
         CicloEntrada: {
             /** Nome */
@@ -694,6 +846,37 @@ export interface components {
              * Format: date
              */
             data_fim: string;
+        };
+        /** CicloResumo */
+        CicloResumo: {
+            /** Ciclo Id */
+            ciclo_id: number;
+            /** Numero */
+            numero: number;
+            /** Nome */
+            nome: string;
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+            /** Horas Aula Dadas */
+            horas_aula_dadas: number;
+            /**
+             * Recuperacao Min
+             * @description 10% das horas-aula dadas no ciclo (OD art. 242)
+             */
+            recuperacao_min: number;
+            /**
+             * Recuperacao Max
+             * @description 20% das horas-aula dadas no ciclo
+             */
+            recuperacao_max: number;
         };
         /** CicloSaida */
         CicloSaida: {
@@ -907,6 +1090,31 @@ export interface components {
          * @enum {string}
          */
         Nivel: "EMI" | "GRADUACAO";
+        /** NotaEntrada */
+        NotaEntrada: {
+            /** Avaliacao Id */
+            avaliacao_id: number;
+            /** Estudante Id */
+            estudante_id: number;
+            /**
+             * Valor
+             * @description None apaga a nota
+             */
+            valor: number | string | null;
+            /** Substitui Avaliacao Id */
+            substitui_avaliacao_id?: number | null;
+        };
+        /** NotaSaida */
+        NotaSaida: {
+            /** Avaliacao Id */
+            avaliacao_id: number;
+            /** Estudante Id */
+            estudante_id: number;
+            /** Valor */
+            valor: number;
+            /** Substitui Avaliacao Id */
+            substitui_avaliacao_id: number | null;
+        };
         /**
          * OrigemAula
          * @enum {string}
@@ -1012,10 +1220,31 @@ export interface components {
          */
         StatusAula: "PREVISTA" | "DADA" | "CANCELADA";
         /**
+         * Substituicao
+         * @description O que a nota de recuperação substitui (quando for maior).
+         * @enum {string}
+         */
+        Substituicao: "CICLO" | "AVALIACAO" | "MELHOR";
+        /** SubstituicaoSaida */
+        SubstituicaoSaida: {
+            /** Recuperacao Id */
+            recuperacao_id: number;
+            /**
+             * Avaliacao Id
+             * @description None = substituiu a nota do ciclo
+             */
+            avaliacao_id: number | null;
+        };
+        /**
          * TipoAlerta
          * @enum {string}
          */
         TipoAlerta: "CONSECUTIVAS" | "ALTERNADAS";
+        /**
+         * TipoAvaliacao
+         * @enum {string}
+         */
+        TipoAvaliacao: "REGULAR" | "RECUPERACAO";
         /** TurmaEntrada */
         TurmaEntrada: {
             /** Disciplina */
@@ -2510,6 +2739,245 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AlertaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_turmas__turma_id__avaliacoes_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AvaliacaoSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    criar_api_turmas__turma_id__avaliacoes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AvaliacaoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AvaliacaoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_avaliacoes__avaliacao_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                avaliacao_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AvaliacaoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AvaliacaoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_avaliacoes__avaliacao_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                avaliacao_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_notas_api_turmas__turma_id__notas_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotaSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    salvar_notas_api_turmas__turma_id__notas_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotaEntrada"][];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    boletim_api_turmas__turma_id__boletim_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Boletim"];
                 };
             };
             /** @description Validation Error */

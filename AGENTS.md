@@ -181,8 +181,14 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
    registros da turma (`PUT /turmas/{id}/conteudos`).
 
 ### Notas
-8. Nota do ciclo = Σ(nota × peso) ÷ Σ(pesos), arredondada a uma casa decimal.
+8. Nota do ciclo = Σ(nota × peso) ÷ Σ(pesos), arredondada a uma casa decimal (ROUND_HALF_UP).
+   Avaliações sem nenhuma nota lançada na turma são ignoradas; numa avaliação já lançada,
+   estudante sem nota conta 0. Cálculo puro em `services/notas.py` (testar lá).
    Mínimo de 2 avaliações por ciclo no EMI (OD art. 209, parágrafo único) — avisar, não bloquear.
+8a. Recuperação (`Avaliacao.tipo = RECUPERACAO`) substitui, quando maior: `CICLO` (nota do
+    trimestre — padrão EMI), `AVALIACAO` (uma avaliação fixa) ou `MELHOR` (a que mais aumenta
+    a média — padrão graduação; o professor pode fixar outra por estudante em
+    `Nota.substitui_avaliacao_id`).
 9. Média parcial = média aritmética das notas dos ciclos (OD art. 217).
 10. Aprovação (parametrizável por curso/PPC):
     - EMI: média ≥ **6,0** (OD art. 218 §1º), sem exame final.
@@ -206,6 +212,7 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
 11. Obrigatória no EMI. Convocar estudantes com nota abaixo de **6,0** no ciclo (art. 245);
     voluntários com nota ≥ 6,0 podem participar mediante manifestação prévia (art. 247).
 12. Só faz a reavaliação quem participou de **≥ 75%** dos encontros de recuperação (art. 246).
+    **Pendente:** registrar encontros e frequência da recuperação; hoje a tela só informa a regra.
 13. A nota da recuperação, **quando maior, substitui** a nota da avaliação ou do ciclo,
     conforme registrado no diário (art. 245, parágrafo único; art. 212 §2º).
 14. A carga horária de recuperação deve ser de **10% a 20%** da carga horária executada no

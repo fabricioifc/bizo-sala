@@ -21,6 +21,12 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/turmas/:id/notas',
+      name: 'turma-notas',
+      component: () => import('@/views/TurmaNotasView.vue'),
+      props: true,
+    },
+    {
       path: '/turmas/:id/conteudo',
       name: 'turma-conteudo',
       component: () => import('@/views/TurmaConteudoView.vue'),

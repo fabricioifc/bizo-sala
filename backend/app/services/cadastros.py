@@ -6,6 +6,7 @@ from sqlalchemy import exists, func, select
 from sqlalchemy.orm import Session
 
 from app.models import (
+    Avaliacao,
     CicloAvaliativo,
     Curso,
     DiaNaoLetivo,
@@ -120,19 +121,19 @@ def salvar_periodo(
     for campo, valor in dados.model_dump(exclude={"ciclos"}).items():
         setattr(periodo, campo, valor)
 
-    # Remove os ciclos antigos antes de inserir os novos (unicidade de periodo+numero)
-    if periodo.ciclos:
-        periodo.ciclos.clear()
-        db.flush()
-    periodo.ciclos = [
-        CicloAvaliativo(
-            numero=i,
-            nome=c.nome or _nome_ciclo(dados.regime, i),
-            data_inicio=c.data_inicio,
-            data_fim=c.data_fim,
-        )
-        for i, c in enumerate(ciclos, start=1)
-    ]
+    # Atualiza os ciclos no lugar (avaliações apontam para eles) e remove os que sobrarem
+    existentes = list(periodo.ciclos)
+    for i, c in enumerate(ciclos, start=1):
+        registro = existentes[i - 1] if i <= len(existentes) else CicloAvaliativo(numero=i)
+        registro.nome = c.nome or _nome_ciclo(dados.regime, i)
+        registro.data_inicio = c.data_inicio
+        registro.data_fim = c.data_fim
+        if i > len(existentes):
+            periodo.ciclos.append(registro)
+    for sobra in existentes[len(ciclos) :]:
+        if db.scalar(select(exists().where(Avaliacao.ciclo_id == sobra.id))):
+            raise Conflito(f"O {sobra.nome} tem avaliações e não pode ser removido")
+        periodo.ciclos.remove(sobra)
     db.add(periodo)
     db.commit()
     return periodo
