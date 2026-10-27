@@ -14,6 +14,7 @@ from app.models.cadastros import (
     TurmaHorario,
     turma_estudante,
 )
+from app.models.mensagens import Destinatario, Mensagem, StatusEnvio, TipoDestinatario
 from app.models.usuario import Usuario
 
 __all__ = [
@@ -23,9 +24,11 @@ __all__ = [
     "Base",
     "CicloAvaliativo",
     "Curso",
+    "Destinatario",
     "DiaNaoLetivo",
     "Estudante",
     "Frequencia",
+    "Mensagem",
     "Nivel",
     "Nota",
     "OrigemAula",
@@ -34,9 +37,11 @@ __all__ = [
     "RegistroConteudo",
     "StatusAlerta",
     "StatusAula",
+    "StatusEnvio",
     "Substituicao",
     "TipoAlerta",
     "TipoAvaliacao",
+    "TipoDestinatario",
     "Turma",
     "TurmaHorario",
     "Usuario",

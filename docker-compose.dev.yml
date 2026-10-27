@@ -12,8 +12,6 @@ services:
     environment:
       COOKIE_SECURE: "false"
       TEST_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}_test
-      SMTP_HOST: mailpit
-      SMTP_PORT: "1025"
       # Bind mount do Windows não propaga eventos de arquivo para o container
       WATCHFILES_FORCE_POLLING: "true"
       # Caches fora da pasta montada (o OneDrive trava arquivos temporários)
@@ -24,6 +22,27 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
+
+  worker:
+    image: bizo-sala-api:dev
+    build:
+      target: dev
+    # Reinicia sozinho quando o código muda
+    command: watchfiles "python -m app.worker" app
+    environment:
+      # Em dev os e-mails vão para o Mailpit (http://localhost:8025), nunca para fora
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      SMTP_STARTTLS: "false"
+      SMTP_USER: ""
+      SMTP_PASSWORD: ""
+      EMAIL_REMETENTE: ${SMTP_USER:-bizo-sala@localhost}
+      EMAIL_INTERVALO_SEGUNDOS: "0.2"
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mailpit
 
   web:
     image: bizo-sala-web:dev

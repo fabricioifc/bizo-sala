@@ -12,6 +12,14 @@ services:
     environment:
       COOKIE_SECURE: "true"
 
+  worker:
+    image: bizo-sala-api:prod
+    build:
+      target: prod
+    restart: unless-stopped
+    depends_on:
+      - api
+
   nginx:
     image: bizo-sala-nginx:prod
     build:

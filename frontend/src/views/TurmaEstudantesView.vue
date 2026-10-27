@@ -119,6 +119,13 @@ onMounted(carregar)
       mensagem-vazia="Nenhum estudante matriculado. Adicione um a um ou importe uma planilha CSV."
     >
       <template #acoes>
+        <RouterLink
+          v-if="estudantes.length"
+          :to="`/mensagens/nova?turma=${turma.id}`"
+          class="br-button"
+        >
+          <i class="fas fa-envelope" aria-hidden="true"></i> E-mail para a turma
+        </RouterLink>
         <BrButton icone="fas fa-file-import" @click="importando = true">Importar CSV</BrButton>
         <BrButton variante="primary" icone="fas fa-plus" @click="novo">Adicionar</BrButton>
       </template>
@@ -143,6 +150,15 @@ onMounted(carregar)
           <td v-if="ehEmi">{{ formatarData(e.data_nascimento) || '—' }}</td>
           <td v-if="ehEmi">{{ e.email_responsavel ?? '—' }}</td>
           <td class="text-right text-nowrap">
+            <RouterLink
+              v-if="e.email || e.email_responsavel"
+              :to="`/mensagens/nova?turma=${turma.id}&estudantes=${e.id}`"
+              class="br-button circle"
+              :aria-label="`Enviar e-mail para ${e.nome}`"
+              :title="`Enviar e-mail para ${e.nome}`"
+            >
+              <i class="fas fa-envelope" aria-hidden="true"></i>
+            </RouterLink>
             <BrButton circular icone="fas fa-pen" :rotulo="`Editar ${e.nome}`" @click="editar(e)" />
             <BrButton
               circular

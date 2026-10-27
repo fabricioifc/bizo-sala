@@ -582,6 +582,75 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/mensagens/previa": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Previa */
+        post: operations["previa_api_mensagens_previa_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/mensagens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_mensagens_get"];
+        put?: never;
+        /** Enviar */
+        post: operations["enviar_api_mensagens_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/mensagens/{mensagem_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detalhar */
+        get: operations["detalhar_api_mensagens__mensagem_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/mensagens/{mensagem_id}/reenviar-falhas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reenviar Falhas */
+        post: operations["reenviar_falhas_api_mensagens__mensagem_id__reenviar_falhas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -935,6 +1004,35 @@ export interface components {
             /** Alerta Faltas Alternadas */
             alerta_faltas_alternadas: number | null;
         };
+        /** DestinatarioPrevia */
+        DestinatarioPrevia: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Nome */
+            nome: string;
+            tipo: components["schemas"]["TipoDestinatario"];
+            /** Email */
+            email: string;
+        };
+        /** DestinatarioSaida */
+        DestinatarioSaida: {
+            /** Id */
+            id: number;
+            /** Estudante Id */
+            estudante_id: number | null;
+            tipo: components["schemas"]["TipoDestinatario"];
+            /** Nome */
+            nome: string;
+            /** Email */
+            email: string;
+            status: components["schemas"]["StatusEnvio"];
+            /** Tentativas */
+            tentativas: number;
+            /** Enviado Em */
+            enviado_em: string | null;
+            /** Erro */
+            erro: string | null;
+        };
         /** DiaNaoLetivoEntrada */
         DiaNaoLetivoEntrada: {
             /**
@@ -1085,6 +1183,86 @@ export interface components {
             /** Senha */
             senha: string;
         };
+        /** MensagemDetalhe */
+        MensagemDetalhe: {
+            /** Id */
+            id: number;
+            /** Turma Id */
+            turma_id: number | null;
+            /** Disciplina */
+            disciplina: string | null;
+            /** Turma Nome */
+            turma_nome: string | null;
+            /** Assunto */
+            assunto: string;
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+            /** Total */
+            total: number;
+            /** Enviados */
+            enviados: number;
+            /** Pendentes */
+            pendentes: number;
+            /** Erros */
+            erros: number;
+            /** Corpo */
+            corpo: string;
+            /** Destinatarios */
+            destinatarios: components["schemas"]["DestinatarioSaida"][];
+        };
+        /** MensagemEntrada */
+        MensagemEntrada: {
+            /** Turma Id */
+            turma_id: number;
+            /**
+             * Estudante Ids
+             * @description None = todos os estudantes ativos da turma
+             */
+            estudante_ids?: number[] | null;
+            /**
+             * Incluir Estudantes
+             * @default true
+             */
+            incluir_estudantes: boolean;
+            /**
+             * Incluir Responsaveis
+             * @default false
+             */
+            incluir_responsaveis: boolean;
+            /** Assunto */
+            assunto: string;
+            /** Corpo */
+            corpo: string;
+        };
+        /** MensagemResumo */
+        MensagemResumo: {
+            /** Id */
+            id: number;
+            /** Turma Id */
+            turma_id: number | null;
+            /** Disciplina */
+            disciplina: string | null;
+            /** Turma Nome */
+            turma_nome: string | null;
+            /** Assunto */
+            assunto: string;
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+            /** Total */
+            total: number;
+            /** Enviados */
+            enviados: number;
+            /** Pendentes */
+            pendentes: number;
+            /** Erros */
+            erros: number;
+        };
         /**
          * Nivel
          * @enum {string}
@@ -1166,6 +1344,17 @@ export interface components {
             /** Ciclos */
             ciclos: components["schemas"]["CicloSaida"][];
         };
+        /** Previa */
+        Previa: {
+            /** Destinatarios */
+            destinatarios: components["schemas"]["DestinatarioPrevia"][];
+            /** Sem Email */
+            sem_email: components["schemas"]["SemEmail"][];
+            /** Exemplo Assunto */
+            exemplo_assunto: string | null;
+            /** Exemplo Corpo */
+            exemplo_corpo: string | null;
+        };
         /**
          * Regime
          * @enum {string}
@@ -1209,6 +1398,13 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** SemEmail */
+        SemEmail: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Nome */
+            nome: string;
+        };
         /**
          * StatusAlerta
          * @enum {string}
@@ -1219,6 +1415,11 @@ export interface components {
          * @enum {string}
          */
         StatusAula: "PREVISTA" | "DADA" | "CANCELADA";
+        /**
+         * StatusEnvio
+         * @enum {string}
+         */
+        StatusEnvio: "PENDENTE" | "ENVIADO" | "ERRO";
         /**
          * Substituicao
          * @description O que a nota de recuperação substitui (quando for maior).
@@ -1245,6 +1446,11 @@ export interface components {
          * @enum {string}
          */
         TipoAvaliacao: "REGULAR" | "RECUPERACAO";
+        /**
+         * TipoDestinatario
+         * @enum {string}
+         */
+        TipoDestinatario: "ESTUDANTE" | "RESPONSAVEL";
         /** TurmaEntrada */
         TurmaEntrada: {
             /** Disciplina */
@@ -2978,6 +3184,175 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Boletim"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    previa_api_mensagens_previa_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MensagemEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Previa"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_mensagens_get: {
+        parameters: {
+            query?: {
+                turma_id?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MensagemResumo"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    enviar_api_mensagens_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MensagemEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MensagemDetalhe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detalhar_api_mensagens__mensagem_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mensagem_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MensagemDetalhe"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reenviar_falhas_api_mensagens__mensagem_id__reenviar_falhas_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mensagem_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MensagemDetalhe"];
                 };
             };
             /** @description Validation Error */

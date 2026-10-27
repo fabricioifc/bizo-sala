@@ -34,7 +34,7 @@ docker-compose*.yml, .env.example
 - Banco: **PostgreSQL 16** (container); backup diário com `pg_dump` (volume + rotação)
 - Autenticação: usuário único, senha com hash **argon2**, sessão via **JWT em cookie
   `httpOnly` + `Secure` + `SameSite=Strict`**; rate limit no login
-- E-mail: `aiosmtplib` (ver seção E-mail)
+- E-mail: `smtplib` da biblioteca padrão (ver seção E-mail)
 - Fila de envios: tabela no banco consumida por um **worker** próprio (mesmo código,
   outro processo/container); sem Redis, a menos que se mostre necessário
 - OpenAPI gerado pelo FastAPI é o contrato com o front-end
@@ -49,7 +49,7 @@ app/
   models/     modelos SQLAlchemy
   schemas/    modelos Pydantic
   core/       config, segurança, banco
-  worker/     consumidor da fila de e-mails
+  worker.py   consumidor da fila de e-mails (python -m app.worker)
 ```
 
 ## Stack — frontend (`frontend/`)
@@ -231,10 +231,14 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
   copiar os responsáveis (EMI). Modelos prontos (convocação de recuperação, aviso de faltas).
 - **Um e-mail por destinatário** (nunca expor a lista; no máximo BCC).
 - Transporte: SMTP `smtp.gmail.com:587` (STARTTLS) com **senha de app** da conta
-  `@ifc.edu.br` (variáveis `SMTP_USER` / `SMTP_PASSWORD`), enviado pelo worker com
-  `aiosmtplib`. Sem OAuth.
-- Respeitar limites do Workspace (~2.000 envios/dia): enviar por fila, com
-  throttling e nova tentativa automática. Registrar status em `Mensagem`.
+  `@ifc.edu.br` (variáveis `SMTP_USER` / `SMTP_PASSWORD`), enviado pelo serviço `worker`
+  com `smtplib`. Sem OAuth.
+- Fila: `Mensagem` + um `Destinatario` por e-mail, já personalizado
+  (`{primeiro_nome}`, `{nome}`, `{disciplina}`, `{turma}`). O worker envia no ritmo de
+  `EMAIL_INTERVALO_SEGUNDOS`, tenta de novo em 1, 2 min e marca `ERRO` após 3 tentativas;
+  a tela permite reenviar falhas. Lógica testável em `services/mensagens.py`
+  (`processar_fila` recebe a função de envio).
+- Respeitar limites do Workspace (~2.000 envios/dia).
 - Dev: sempre Mailpit.
 
 ## Convenções

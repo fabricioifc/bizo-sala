@@ -39,6 +39,22 @@ const router = createRouter({
       props: true,
     },
     { path: '/alertas', name: 'alertas', component: () => import('@/views/AlertasView.vue') },
+    {
+      path: '/mensagens',
+      name: 'mensagens',
+      component: () => import('@/views/MensagensView.vue'),
+    },
+    {
+      path: '/mensagens/nova',
+      name: 'nova-mensagem',
+      component: () => import('@/views/NovaMensagemView.vue'),
+    },
+    {
+      path: '/mensagens/:id',
+      name: 'mensagem',
+      component: () => import('@/views/MensagemView.vue'),
+      props: true,
+    },
     { path: '/cursos', name: 'cursos', component: () => import('@/views/CursosView.vue') },
     { path: '/periodos', name: 'periodos', component: () => import('@/views/PeriodosView.vue') },
     {

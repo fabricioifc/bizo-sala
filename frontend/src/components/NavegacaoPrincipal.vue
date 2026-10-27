@@ -11,6 +11,7 @@ const links = [
   { para: '/', rotulo: 'Painel', icone: 'fas fa-home' },
   { para: '/turmas', rotulo: 'Turmas', icone: 'fas fa-users' },
   { para: '/alertas', rotulo: 'Alertas SISAE', icone: 'fas fa-bell' },
+  { para: '/mensagens', rotulo: 'Mensagens', icone: 'fas fa-envelope' },
   { para: '/cursos', rotulo: 'Cursos', icone: 'fas fa-graduation-cap' },
   { para: '/periodos', rotulo: 'Períodos', icone: 'fas fa-calendar-alt' },
   { para: '/dias-nao-letivos', rotulo: 'Dias não letivos', icone: 'fas fa-calendar-times' },

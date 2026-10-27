@@ -9,6 +9,7 @@ from app.api import (
     cursos,
     dias_nao_letivos,
     estudantes,
+    mensagens,
     periodos,
     saude,
     turmas,
@@ -40,4 +41,5 @@ api.include_router(estudantes.router)
 api.include_router(aulas.router)
 api.include_router(alertas.router)
 api.include_router(avaliacoes.router)
+api.include_router(mensagens.router)
 app.include_router(api)
