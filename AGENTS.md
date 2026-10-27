@@ -55,7 +55,7 @@ app/
 ## Stack — frontend (`frontend/`)
 - **Vue 3** (Composition API, `<script setup>`) + **TypeScript** + **Vite**
 - Vue Router; estado com **Pinia**
-- Componentes de UI: **PrimeVue** (tabelas, formulários, calendário), mobile-first
+- Interface: **Padrão Digital de Governo (GovBR-DS)** — ver seção própria; mobile-first
 - Cliente da API gerado a partir do OpenAPI (`openapi-typescript`) — não escrever
   tipos de API à mão
 - **PWA** com `vite-plugin-pwa` (Workbox): instalável no celular e no computador
@@ -63,6 +63,41 @@ app/
   conexão voltar; endpoint de sincronização idempotente (id gerado no cliente)
 - Testes: Vitest (unitários) + Playwright (fluxos principais: login, chamada, notas)
 - Lint/format: ESLint + Prettier
+
+## Design System — GovBR-DS (https://www.gov.br/ds)
+Toda a interface segue o **Padrão Digital de Governo**. Não usar outra biblioteca de
+componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
+
+- Pacote: **`@govbr-ds/core`** (v3.x) — CSS, tokens e comportamentos JS dos componentes.
+  Importar `@govbr-ds/core/dist/core.min.css` uma única vez em `main.ts`.
+- **Componentes Vue próprios** em `frontend/src/components/govbr/`, prefixo `Br`
+  (`BrButton`, `BrInput`, `BrSelect`, `BrTable`, `BrMessage`, `BrModal`, `BrHeader`,
+  `BrMenu`, `BrBreadcrumb`, `BrCheckbox`, `BrRadio`, `BrDateTimePicker`, `BrLoading`...).
+  Cada um renderiza exatamente a marcação/classes documentadas no GovBR-DS
+  (`br-button`, `br-input`, `br-table`...) e expõe `v-model`, props e eventos Vue.
+  - As views usam **somente** esses componentes, nunca a marcação crua do DS.
+  - Quando o componente do DS depende do JS do core (menu, modal, select, tooltip...),
+    instanciar a classe correspondente no `onMounted` e destruir no `onBeforeUnmount`.
+  - Não usar `@govbr-ds/webcomponents`: o `v-model` com custom elements é frágil
+    e dificulta a tipagem.
+- **Tokens**: cores, espaçamentos, tipografia e sombras vêm das variáveis CSS do DS
+  (`--blue-warm-vivid-70`, `--spacing-scale-2x`, `--font-size-scale-up-01` etc.).
+  Não usar cores ou medidas fixas no CSS dos componentes.
+- **Tipografia**: fonte **Rawline**, auto-hospedada em `frontend/public/fonts/`
+  (sem CDN externo: funciona offline na PWA e não expõe acessos a terceiros).
+- **Ícones**: Font Awesome 5 Free (`@fortawesome/fontawesome-free`), padrão do DS,
+  com `aria-hidden="true"` quando decorativos.
+- **Grid e layout**: grid do DS (`container-lg`, `row`, `col-*`) e o template de
+  página gov.br (cabeçalho compacto, menu lateral, área de conteúdo).
+- **Acessibilidade (obrigatória)**: seguir eMAG/WCAG 2.1 AA conforme as diretrizes do
+  DS — `label` em todo campo, mensagens de erro associadas (`aria-describedby`), foco
+  visível, navegação por teclado, contraste mínimo e textos alternativos.
+- **Densidade**: na tela de chamada usar a densidade alta do DS (`small`), para caber
+  a turma inteira no celular; nas demais, a densidade padrão.
+- **Tema escuro**: usar as classes `dark-mode` do DS só nos componentes que as
+  suportam; não inventar paleta própria.
+- A marca do governo federal (logo gov.br) **não** é usada: o sistema é pessoal do
+  professor, não um serviço oficial. Usar o nome e o ícone "Bizo Sala".
 
 ## Docker
 - `docker-compose.yml` (base) + `docker-compose.dev.yml` (dev) + `docker-compose.prod.yml` (prod).
@@ -196,6 +231,8 @@ app/
 
 ## Prioridade de entrega (MVP)
 1. Docker dev/prod, esqueleto FastAPI + Vue, autenticação, PWA básica
+   - Pendente: trocar o PrimeVue do esqueleto pelo GovBR-DS (componentes base `Br*`,
+     login e layout) antes de criar novas telas
 2. Telas de cadastro (CRUD) de cursos, períodos, dias não letivos, turmas e estudantes
    (importação via CSV) — não há painel admin pronto, então o CRUD faz parte do MVP
 3. Calendário de aulas, chamada (celular) e carga horária
