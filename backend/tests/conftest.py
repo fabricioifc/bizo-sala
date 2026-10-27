@@ -19,6 +19,7 @@ from app.api.auth import limite_login
 from app.core.db import SessionLocal, engine
 from app.main import app
 from app.models import Base
+from app.services.usuarios import garantir_usuario_inicial
 
 
 def _criar_banco_de_teste() -> None:
@@ -61,3 +62,14 @@ def db() -> Iterator[Session]:
 def client() -> Iterator[TestClient]:
     with TestClient(app) as c:
         yield c
+
+
+@pytest.fixture
+def api(client: TestClient, db: Session) -> TestClient:
+    """Cliente já autenticado."""
+    garantir_usuario_inicial(db, "professor@ifc.edu.br", "senha-de-teste-123", "Professor")
+    r = client.post(
+        "/api/auth/login", json={"email": "professor@ifc.edu.br", "senha": "senha-de-teste-123"}
+    )
+    assert r.status_code == 200
+    return client

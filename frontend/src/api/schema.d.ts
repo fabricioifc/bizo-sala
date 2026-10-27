@@ -72,14 +72,408 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/cursos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_cursos_get"];
+        put?: never;
+        /** Criar */
+        post: operations["criar_api_cursos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/cursos/{curso_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Atualizar */
+        put: operations["atualizar_api_cursos__curso_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_cursos__curso_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/periodos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_periodos_get"];
+        put?: never;
+        /** Criar */
+        post: operations["criar_api_periodos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/periodos/{periodo_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Atualizar */
+        put: operations["atualizar_api_periodos__periodo_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_periodos__periodo_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/dias-nao-letivos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_dias_nao_letivos_get"];
+        put?: never;
+        /** Criar */
+        post: operations["criar_api_dias_nao_letivos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/dias-nao-letivos/{dia_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Atualizar */
+        put: operations["atualizar_api_dias_nao_letivos__dia_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_dias_nao_letivos__dia_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_turmas_get"];
+        put?: never;
+        /** Criar */
+        post: operations["criar_api_turmas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detalhar */
+        get: operations["detalhar_api_turmas__turma_id__get"];
+        /** Atualizar */
+        put: operations["atualizar_api_turmas__turma_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_turmas__turma_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/estudantes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar Estudantes */
+        get: operations["listar_estudantes_api_turmas__turma_id__estudantes_get"];
+        put?: never;
+        /** Adicionar Estudante */
+        post: operations["adicionar_estudante_api_turmas__turma_id__estudantes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/estudantes/{estudante_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Desmatricular */
+        delete: operations["desmatricular_api_turmas__turma_id__estudantes__estudante_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/estudantes/importar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Importar */
+        post: operations["importar_api_turmas__turma_id__estudantes_importar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/estudantes/{estudante_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Atualizar */
+        put: operations["atualizar_api_estudantes__estudante_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** CicloEntrada */
+        CicloEntrada: {
+            /** Nome */
+            nome?: string | null;
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+        };
+        /** CicloSaida */
+        CicloSaida: {
+            /** Id */
+            id: number;
+            /** Numero */
+            numero: number;
+            /** Nome */
+            nome: string;
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+        };
+        /** CursoEntrada */
+        CursoEntrada: {
+            /** Nome */
+            nome: string;
+            nivel: components["schemas"]["Nivel"];
+            regime: components["schemas"]["Regime"];
+            /**
+             * Media Aprovacao
+             * @default 6.0
+             */
+            media_aprovacao: number | string;
+            /**
+             * Exame Final
+             * @default false
+             */
+            exame_final: boolean;
+            /** Alerta Faltas Consecutivas */
+            alerta_faltas_consecutivas?: number | null;
+            /** Alerta Faltas Alternadas */
+            alerta_faltas_alternadas?: number | null;
+        };
+        /** CursoSaida */
+        CursoSaida: {
+            /** Id */
+            id: number;
+            /** Nome */
+            nome: string;
+            nivel: components["schemas"]["Nivel"];
+            regime: components["schemas"]["Regime"];
+            /** Media Aprovacao */
+            media_aprovacao: number;
+            /** Exame Final */
+            exame_final: boolean;
+            /** Alerta Faltas Consecutivas */
+            alerta_faltas_consecutivas: number | null;
+            /** Alerta Faltas Alternadas */
+            alerta_faltas_alternadas: number | null;
+        };
+        /** DiaNaoLetivoEntrada */
+        DiaNaoLetivoEntrada: {
+            /**
+             * Data
+             * Format: date
+             */
+            data: string;
+            /** Descricao */
+            descricao: string;
+        };
+        /** DiaNaoLetivoSaida */
+        DiaNaoLetivoSaida: {
+            /** Id */
+            id: number;
+            /**
+             * Data
+             * Format: date
+             */
+            data: string;
+            /** Descricao */
+            descricao: string;
+        };
+        /** EstudanteEntrada */
+        EstudanteEntrada: {
+            /** Nome */
+            nome: string;
+            /** Matricula */
+            matricula: string;
+            /** Email */
+            email?: string | null;
+            /** Data Nascimento */
+            data_nascimento?: string | null;
+            /** Email Responsavel */
+            email_responsavel?: string | null;
+            /**
+             * Ativo
+             * @default true
+             */
+            ativo: boolean;
+        };
+        /** EstudanteSaida */
+        EstudanteSaida: {
+            /** Id */
+            id: number;
+            /** Nome */
+            nome: string;
+            /** Matricula */
+            matricula: string;
+            /** Email */
+            email: string | null;
+            /** Data Nascimento */
+            data_nascimento: string | null;
+            /** Email Responsavel */
+            email_responsavel: string | null;
+            /** Ativo */
+            ativo: boolean;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** Horario */
+        Horario: {
+            /**
+             * Dia Semana
+             * @description 0 = segunda ... 6 = domingo
+             */
+            dia_semana: number;
+            /**
+             * Aulas
+             * @description Horas-aula (50 min) no dia
+             */
+            aulas: number;
+        };
+        /** ImportacaoEntrada */
+        ImportacaoEntrada: {
+            /**
+             * Conteudo
+             * @description Texto do arquivo CSV
+             */
+            conteudo: string;
+            /**
+             * Simular
+             * @description Só valida e conta, sem gravar
+             * @default true
+             */
+            simular: boolean;
+        };
+        /** ImportacaoErro */
+        ImportacaoErro: {
+            /** Linha */
+            linha: number;
+            /** Mensagem */
+            mensagem: string;
+        };
+        /** ImportacaoResultado */
+        ImportacaoResultado: {
+            /** Total Linhas */
+            total_linhas: number;
+            /** Criados */
+            criados: number;
+            /** Atualizados */
+            atualizados: number;
+            /** Matriculados */
+            matriculados: number;
+            /** Ja Matriculados */
+            ja_matriculados: number;
+            /** Erros */
+            erros: components["schemas"]["ImportacaoErro"][];
+            /** Aplicado */
+            aplicado: boolean;
         };
         /** LoginEntrada */
         LoginEntrada: {
@@ -91,10 +485,109 @@ export interface components {
             /** Senha */
             senha: string;
         };
+        /**
+         * Nivel
+         * @enum {string}
+         */
+        Nivel: "EMI" | "GRADUACAO";
+        /** PeriodoEntrada */
+        PeriodoEntrada: {
+            /** Nome */
+            nome: string;
+            regime: components["schemas"]["Regime"];
+            /** Ano */
+            ano: number;
+            /** Semestre */
+            semestre?: (1 | 2) | null;
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+            /** Ciclos */
+            ciclos: components["schemas"]["CicloEntrada"][];
+        };
+        /** PeriodoSaida */
+        PeriodoSaida: {
+            /** Id */
+            id: number;
+            /** Nome */
+            nome: string;
+            regime: components["schemas"]["Regime"];
+            /** Ano */
+            ano: number;
+            /** Semestre */
+            semestre: number | null;
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+            /** Ciclos */
+            ciclos: components["schemas"]["CicloSaida"][];
+        };
+        /**
+         * Regime
+         * @enum {string}
+         */
+        Regime: "ANUAL" | "SEMESTRAL";
         /** Saude */
         Saude: {
             /** Status */
             status: string;
+        };
+        /** TurmaEntrada */
+        TurmaEntrada: {
+            /** Disciplina */
+            disciplina: string;
+            /** Nome */
+            nome: string;
+            /** Curso Id */
+            curso_id: number;
+            /** Periodo Id */
+            periodo_id: number;
+            /** Carga Horaria Horas */
+            carga_horaria_horas: number;
+            /** Horarios */
+            horarios: components["schemas"]["Horario"][];
+        };
+        /** TurmaSaida */
+        TurmaSaida: {
+            /** Id */
+            id: number;
+            /** Disciplina */
+            disciplina: string;
+            /** Nome */
+            nome: string;
+            /** Curso Id */
+            curso_id: number;
+            /** Curso Nome */
+            curso_nome: string;
+            nivel: components["schemas"]["Nivel"];
+            /** Periodo Id */
+            periodo_id: number;
+            /** Periodo Nome */
+            periodo_nome: string;
+            /** Carga Horaria Horas */
+            carga_horaria_horas: number;
+            /** Horas Aula Previstas */
+            horas_aula_previstas: number;
+            /** Aulas Por Semana */
+            aulas_por_semana: number;
+            /** Horarios */
+            horarios: components["schemas"]["Horario"][];
+            /** Total Estudantes */
+            total_estudantes: number;
         };
         /** UsuarioSaida */
         UsuarioSaida: {
@@ -216,6 +709,755 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UsuarioSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_cursos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CursoSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    criar_api_cursos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CursoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CursoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_cursos__curso_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                curso_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CursoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CursoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_cursos__curso_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                curso_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_periodos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PeriodoSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    criar_api_periodos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PeriodoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PeriodoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_periodos__periodo_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                periodo_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PeriodoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PeriodoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_periodos__periodo_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                periodo_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_dias_nao_letivos_get: {
+        parameters: {
+            query?: {
+                ano?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiaNaoLetivoSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    criar_api_dias_nao_letivos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiaNaoLetivoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiaNaoLetivoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_dias_nao_letivos__dia_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dia_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiaNaoLetivoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiaNaoLetivoSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_dias_nao_letivos__dia_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dia_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_turmas_get: {
+        parameters: {
+            query?: {
+                periodo_id?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TurmaSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    criar_api_turmas_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TurmaEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TurmaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detalhar_api_turmas__turma_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TurmaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_turmas__turma_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TurmaEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TurmaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_turmas__turma_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_estudantes_api_turmas__turma_id__estudantes_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EstudanteSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    adicionar_estudante_api_turmas__turma_id__estudantes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EstudanteEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EstudanteSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    desmatricular_api_turmas__turma_id__estudantes__estudante_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+                estudante_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    importar_api_turmas__turma_id__estudantes_importar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImportacaoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportacaoResultado"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    atualizar_api_estudantes__estudante_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                estudante_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EstudanteEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EstudanteSaida"];
                 };
             };
             /** @description Validation Error */

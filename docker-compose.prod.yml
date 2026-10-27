@@ -26,12 +26,12 @@ services:
 
   # Opcional: túnel em container (ative com --profile tunnel e TUNNEL_TOKEN no .env).
   # Nesse caso, no painel da Cloudflare o serviço do hostname é http://nginx:80.
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    profiles: ["tunnel"]
-    restart: unless-stopped
-    command: tunnel --no-autoupdate run
-    environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
-    depends_on:
-      - nginx
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   profiles: ["tunnel"]
+  #   restart: unless-stopped
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+  #   depends_on:
+  #     - nginx
