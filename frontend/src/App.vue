@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import Button from 'primevue/button'
-import Toast from 'primevue/toast'
 import { useRouter } from 'vue-router'
 
+import { BrButton, BrHeader } from '@/components/govbr'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -15,35 +14,20 @@ async function sair() {
 </script>
 
 <template>
-  <Toast />
-  <header v-if="auth.usuario" class="topo">
-    <RouterLink to="/" class="marca">
-      <img src="/logo.svg" alt="" width="28" height="28" />
-      Bizo Sala
-    </RouterLink>
-    <Button label="Sair" icon="pi pi-sign-out" severity="secondary" text @click="sair" />
-  </header>
-  <main class="conteudo">
+  <BrHeader v-if="auth.usuario" titulo="Bizo Sala" logo="/logo.svg">
+    <template #acoes>
+      <span class="usuario d-none d-sm-inline">{{ auth.usuario.nome }}</span>
+      <BrButton icone="fas fa-sign-out-alt" densidade="small" @click="sair">Sair</BrButton>
+    </template>
+  </BrHeader>
+  <main class="container-lg py-3">
     <RouterView />
   </main>
 </template>
 
 <style scoped>
-.topo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background: var(--p-content-background);
-  border-bottom: 1px solid var(--p-content-border-color);
-}
-
-.marca {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: inherit;
-  text-decoration: none;
+.usuario {
+  margin-right: var(--spacing-scale-2x);
+  color: var(--gray-60);
 }
 </style>

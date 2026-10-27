@@ -1,27 +1,52 @@
-:root {
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  color-scheme: light dark;
+/* Rawline, fonte do GovBR-DS, auto-hospedada (funciona offline na PWA) */
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-400i.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rawline';
+  src: url('/fonts/rawline/rawline-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-  margin: 0;
-  background: var(--p-surface-50);
-  color: var(--p-text-color);
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background: var(--p-surface-950);
-  }
-}
-
-.conteudo {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 1rem;
+  background: var(--gray-2);
 }

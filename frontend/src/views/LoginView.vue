@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import Button from 'primevue/button'
-import Card from 'primevue/card'
-import InputText from 'primevue/inputtext'
-import Message from 'primevue/message'
-import Password from 'primevue/password'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import { BrButton, BrCard, BrInput, BrMessage } from '@/components/govbr'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -35,57 +31,59 @@ async function entrar() {
 
 <template>
   <div class="login">
-    <Card>
-      <template #title>
+    <BrCard>
+      <template #cabecalho>
         <div class="titulo">
           <img src="/logo.svg" alt="" width="40" height="40" />
-          Bizo Sala
+          <h1>Bizo Sala</h1>
         </div>
       </template>
-      <template #content>
-        <form class="formulario" @submit.prevent="entrar">
-          <label for="email">E-mail</label>
-          <InputText id="email" v-model="email" type="email" autocomplete="username" required />
 
-          <label for="senha">Senha</label>
-          <Password
-            v-model="senha"
-            input-id="senha"
-            :feedback="false"
-            toggle-mask
-            fluid
-            autocomplete="current-password"
-            required
-          />
+      <form class="formulario" @submit.prevent="entrar">
+        <BrInput
+          v-model="email"
+          rotulo="E-mail"
+          type="email"
+          placeholder="seu.nome@ifc.edu.br"
+          autocomplete="username"
+          required
+        />
+        <BrInput
+          v-model="senha"
+          rotulo="Senha"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
 
-          <Message v-if="erro" severity="error" :closable="false">{{ erro }}</Message>
+        <BrMessage v-if="erro" estado="danger">{{ erro }}</BrMessage>
 
-          <Button type="submit" label="Entrar" :loading="enviando" />
-        </form>
-      </template>
-    </Card>
+        <BrButton type="submit" variante="primary" bloco :carregando="enviando">Entrar</BrButton>
+      </form>
+    </BrCard>
   </div>
 </template>
 
 <style scoped>
 .login {
-  max-width: 380px;
+  max-width: 400px;
   margin: 10vh auto 0;
 }
 
 .titulo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-scale-2x);
+}
+
+.titulo h1 {
+  margin: 0;
+  font-size: var(--font-size-scale-up-02);
 }
 
 .formulario {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.formulario button {
-  margin-top: 0.75rem;
+  gap: var(--spacing-scale-2x);
 }
 </style>

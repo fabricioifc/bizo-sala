@@ -231,8 +231,8 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
 
 ## Prioridade de entrega (MVP)
 1. Docker dev/prod, esqueleto FastAPI + Vue, autenticação, PWA básica
-   - Pendente: trocar o PrimeVue do esqueleto pelo GovBR-DS (componentes base `Br*`,
-     login e layout) antes de criar novas telas
+   - Componentes `Br*` já existentes: BrButton, BrInput, BrMessage, BrCard, BrHeader.
+     Criar os demais conforme as telas precisarem.
 2. Telas de cadastro (CRUD) de cursos, períodos, dias não letivos, turmas e estudantes
    (importação via CSV) — não há painel admin pronto, então o CRUD faz parte do MVP
 3. Calendário de aulas, chamada (celular) e carga horária

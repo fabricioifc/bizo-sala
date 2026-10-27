@@ -21,6 +21,10 @@ export default defineConfig({
         start_url: '/',
       },
       workbox: {
+        // Inclui fontes (Rawline e Font Awesome) para a interface funcionar offline
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // Fontes SVG legadas do Font Awesome (~1 MB): navegadores atuais usam woff2
+        globIgnores: ['**/fa-*.svg'],
         // A API nunca é servida pelo cache do service worker
         navigateFallbackDenylist: [/^\/api/],
       },

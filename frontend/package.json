@@ -14,11 +14,10 @@
     "gen:api": "openapi-typescript ${API_URL:-http://localhost:8000}/api/openapi.json -o src/api/schema.d.ts"
   },
   "dependencies": {
-    "@primeuix/themes": "^1.0.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@govbr-ds/core": "^3.7.0",
     "openapi-fetch": "^0.13.4",
     "pinia": "^3.0.1",
-    "primeicons": "^7.0.0",
-    "primevue": "^4.3.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

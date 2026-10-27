@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Card from 'primevue/card'
-
+import { BrCard, BrMessage } from '@/components/govbr'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -8,9 +7,9 @@ const auth = useAuthStore()
 
 <template>
   <h1>Olá, {{ auth.usuario?.nome }}</h1>
-  <Card>
-    <template #content>
-      <p>Nenhuma turma cadastrada ainda.</p>
-    </template>
-  </Card>
+  <BrCard>
+    <BrMessage estado="info" titulo="Nenhuma turma cadastrada ainda.">
+      O cadastro de turmas é o próximo passo.
+    </BrMessage>
+  </BrCard>
 </template>
