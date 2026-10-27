@@ -23,6 +23,7 @@ from app.schemas.cadastros import (
     PeriodoEntrada,
     TurmaEntrada,
 )
+from app.services.alertas import atualizar_alertas_das_turmas
 from app.services.erros import Conflito, ErroDeNegocio, NaoEncontrado
 
 MINUTOS_HORA_AULA = 50
@@ -60,6 +61,11 @@ def salvar_curso(db: Session, dados: CursoEntrada, curso: Curso | None = None) -
         curso.alerta_faltas_alternadas = None
 
     db.add(curso)
+    if curso.id is not None:
+        # Limites de alerta podem ter mudado
+        db.flush()
+        turmas = db.scalars(select(Turma).where(Turma.curso_id == curso.id))
+        atualizar_alertas_das_turmas(db, turmas)
     db.commit()
     return curso
 

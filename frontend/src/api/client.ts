@@ -23,6 +23,7 @@ export type RegistroFalta = Schemas['RegistroFalta']
 export type CargaHoraria = Schemas['CargaHorariaSaida']
 export type FrequenciaEstudante = Schemas['FrequenciaEstudante']
 export type RegistroConteudo = Schemas['RegistroConteudoDados']
+export type Alerta = Schemas['AlertaSaida']
 export type Nivel = Curso['nivel']
 export type Regime = Curso['regime']
 

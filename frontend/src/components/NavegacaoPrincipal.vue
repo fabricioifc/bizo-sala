@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 
+import { useAlertasStore } from '@/stores/alertas'
+
 const route = useRoute()
+const alertas = useAlertasStore()
 
 const links = [
   { para: '/', rotulo: 'Painel', icone: 'fas fa-home' },
   { para: '/turmas', rotulo: 'Turmas', icone: 'fas fa-users' },
+  { para: '/alertas', rotulo: 'Alertas SISAE', icone: 'fas fa-bell' },
   { para: '/cursos', rotulo: 'Cursos', icone: 'fas fa-graduation-cap' },
   { para: '/periodos', rotulo: 'Períodos', icone: 'fas fa-calendar-alt' },
   { para: '/dias-nao-letivos', rotulo: 'Dias não letivos', icone: 'fas fa-calendar-times' },
@@ -15,6 +20,9 @@ const links = [
 function ativo(para: string): boolean {
   return para === '/' ? route.path === '/' : route.path.startsWith(para)
 }
+
+// Mantém o contador de alertas atualizado a cada navegação
+watch(() => route.path, alertas.atualizar, { immediate: true })
 </script>
 
 <template>
@@ -31,6 +39,13 @@ function ativo(para: string): boolean {
         exact-active-class=""
       >
         <i :class="link.icone" aria-hidden="true"></i>{{ link.rotulo }}
+        <span
+          v-if="link.para === '/alertas' && alertas.pendentes"
+          class="contador"
+          :aria-label="`${alertas.pendentes} pendentes`"
+        >
+          {{ alertas.pendentes }}
+        </span>
       </RouterLink>
     </div>
   </nav>
@@ -51,5 +66,17 @@ function ativo(para: string): boolean {
 
 .navegacao a {
   flex-shrink: 0;
+}
+
+.contador {
+  margin-left: var(--spacing-scale-half);
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--danger);
+  color: var(--pure-0, #fff);
+  font-size: var(--font-size-scale-down-02);
+  line-height: 20px;
+  text-align: center;
 }
 </style>

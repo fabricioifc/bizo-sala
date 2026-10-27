@@ -4,10 +4,12 @@ import { onMounted, ref } from 'vue'
 import { api, exigir, type AulaDoDia, type Turma } from '@/api/client'
 import { BrCard, BrMessage } from '@/components/govbr'
 import { prepararOffline } from '@/offline/chamadas'
+import { useAlertasStore } from '@/stores/alertas'
 import { useAuthStore } from '@/stores/auth'
 import { DIAS_SEMANA, formatarDataCurta, hojeIso } from '@/utils/formato'
 
 const auth = useAuthStore()
+const alertas = useAlertasStore()
 const turmas = ref<Turma[] | null>(null)
 const aulasHoje = ref<AulaDoDia[]>([])
 const erro = ref('')
@@ -30,6 +32,10 @@ onMounted(async () => {
 <template>
   <h1>Olá, {{ auth.usuario?.nome }}</h1>
   <BrMessage v-if="erro" estado="danger">{{ erro }}</BrMessage>
+  <BrMessage v-if="alertas.pendentes" estado="warning" titulo="Avisar o SISAE.">
+    {{ alertas.pendentes }} estudante(s) atingiram o limite de faltas.
+    <RouterLink to="/alertas">Ver alertas</RouterLink>
+  </BrMessage>
 
   <section v-if="aulasHoje.length" class="mb-4" aria-labelledby="titulo-hoje">
     <h2 id="titulo-hoje">Aulas de hoje · {{ formatarDataCurta(hoje) }}</h2>

@@ -32,6 +32,7 @@ const router = createRouter({
       component: () => import('@/views/ChamadaView.vue'),
       props: true,
     },
+    { path: '/alertas', name: 'alertas', component: () => import('@/views/AlertasView.vue') },
     { path: '/cursos', name: 'cursos', component: () => import('@/views/CursosView.vue') },
     { path: '/periodos', name: 'periodos', component: () => import('@/views/PeriodosView.vue') },
     {

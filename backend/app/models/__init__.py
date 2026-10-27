@@ -1,3 +1,4 @@
+from app.models.alertas import AlertaFrequencia, StatusAlerta, TipoAlerta
 from app.models.aulas import Aula, Frequencia, OrigemAula, RegistroConteudo, StatusAula
 from app.models.base import Base
 from app.models.cadastros import (
@@ -15,6 +16,7 @@ from app.models.cadastros import (
 from app.models.usuario import Usuario
 
 __all__ = [
+    "AlertaFrequencia",
     "Aula",
     "Base",
     "CicloAvaliativo",
@@ -27,7 +29,9 @@ __all__ = [
     "PeriodoLetivo",
     "Regime",
     "RegistroConteudo",
+    "StatusAlerta",
     "StatusAula",
+    "TipoAlerta",
     "Turma",
     "TurmaHorario",
     "Usuario",

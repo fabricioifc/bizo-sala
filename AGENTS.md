@@ -161,10 +161,15 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
 ### Frequência e alerta ao SISAE
 4. Alerta (somente EMI): estudante com falta em **2 encontros (dias) consecutivos**
    da mesma turma gera `AlertaFrequencia` pendente. Um alerta por sequência; não duplicar.
-   Falta no encontro = faltou a pelo menos uma hora-aula do dia (configurável).
+   Falta no encontro = faltou **todas** as horas-aula do dia; atraso (falta parcial)
+   não conta. Dias sem registro do estudante são ignorados.
    - Regra do professor/campus; a OD (art. 228) exige no mínimo o aviso após
-     3 aulas consecutivas ou 5 alternadas para menores. Deixar parâmetros configuráveis
-     e também detectar o critério de 5 faltas alternadas.
+     3 aulas consecutivas ou 5 alternadas para menores. Limites configuráveis no curso
+     (`alerta_faltas_consecutivas`, `alerta_faltas_alternadas`); alternadas gera um
+     alerta a cada N dias de falta no total.
+   - Alertas são recalculados a cada chamada salva, aula cancelada/editada/excluída e
+     mudança de limites no curso. Pendentes que deixam de valer são removidos;
+     `AVISADO`/`DESCARTADO` ficam como histórico.
 5. Graduação **não** gera alerta ao SISAE.
 6. Frequência mínima para aprovação: **75%** (OD art. 224). Exibir % por estudante e
    destacar quem está em risco.

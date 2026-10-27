@@ -19,6 +19,7 @@ from app.models import (
     Turma,
 )
 from app.schemas.aulas import AulaEntrada, RegistroConteudoDados, RegistroFalta
+from app.services.alertas import atualizar_alertas
 from app.services.cadastros import horas_aula_previstas
 from app.services.erros import ErroDeNegocio
 
@@ -105,6 +106,8 @@ def editar_aula(db: Session, aula: Aula, turma: Turma, dados: AulaEntrada) -> Au
         )
     aula.data = dados.data
     aula.horas_aula = dados.horas_aula
+    db.flush()
+    atualizar_alertas(db, turma)
     db.commit()
     return aula
 
@@ -114,8 +117,24 @@ def cancelar_aula(db: Session, aula: Aula, motivo: str) -> Aula:
     db.execute(delete(Frequencia).where(Frequencia.aula_id == aula.id))
     aula.status = StatusAula.CANCELADA
     aula.motivo_cancelamento = motivo
+    db.flush()
+    atualizar_alertas(db, _turma_da_aula(db, aula))
     db.commit()
     return aula
+
+
+def excluir_aula(db: Session, aula: Aula) -> None:
+    turma = _turma_da_aula(db, aula)
+    db.delete(aula)
+    db.flush()
+    atualizar_alertas(db, turma)
+    db.commit()
+
+
+def _turma_da_aula(db: Session, aula: Aula) -> Turma:
+    turma = db.get(Turma, aula.turma_id)
+    assert turma is not None
+    return turma
 
 
 def reabrir_aula(db: Session, aula: Aula) -> Aula:
@@ -161,6 +180,8 @@ def salvar_chamada(
         Frequencia(aula_id=aula.id, estudante_id=r.estudante_id, faltas=r.faltas) for r in registros
     )
     aula.status = StatusAula.DADA
+    db.flush()
+    atualizar_alertas(db, turma)
     db.commit()
     return aula
 

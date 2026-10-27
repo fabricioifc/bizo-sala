@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from app.api import (
+    alertas,
     aulas,
     auth,
     cursos,
@@ -36,4 +37,5 @@ api.include_router(dias_nao_letivos.router)
 api.include_router(turmas.router)
 api.include_router(estudantes.router)
 api.include_router(aulas.router)
+api.include_router(alertas.router)
 app.include_router(api)

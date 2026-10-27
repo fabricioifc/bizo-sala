@@ -134,8 +134,7 @@ def reabrir(aula_id: int, db: DbSession) -> AulaSaida:
 
 @router.delete("/aulas/{aula_id}", status_code=status.HTTP_204_NO_CONTENT)
 def excluir(aula_id: int, db: DbSession) -> None:
-    db.delete(_aula(db, aula_id))
-    db.commit()
+    servico.excluir_aula(db, _aula(db, aula_id))
 
 
 @router.get("/aulas/{aula_id}/chamada", response_model=ChamadaSaida)

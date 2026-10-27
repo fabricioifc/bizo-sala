@@ -1,15 +1,32 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
-import type { Chamada } from '@/api/client'
+import { api, exigir, type Alerta, type Chamada } from '@/api/client'
 import { BrButton, BrMessage } from '@/components/govbr'
 import { carregarChamada, salvarChamada } from '@/offline/chamadas'
+import { useAlertasStore } from '@/stores/alertas'
 import { useSincronizacaoStore } from '@/stores/sincronizacao'
+import { descreverAlerta } from '@/utils/alertas'
 import { formatarDataCurta } from '@/utils/formato'
 
 const props = defineProps<{ id: string }>()
 const aulaId = computed(() => Number(props.id))
 const sincronizacao = useSincronizacaoStore()
+const loja = useAlertasStore()
+
+/** Alertas ao SISAE que esta chamada acabou de gerar */
+const novosAlertas = ref<Alerta[]>([])
+
+async function verificarAlertas(turmaId: number, data: string) {
+  try {
+    const query = { status: 'PENDENTE' as const, turma_id: turmaId }
+    const pendentes = await exigir(api.GET('/api/alertas', { params: { query } }))
+    novosAlertas.value = pendentes.filter((a) => a.data_gatilho === data)
+    await loja.atualizar()
+  } catch {
+    novosAlertas.value = []
+  }
+}
 
 const chamada = ref<Chamada | null>(null)
 /** Faltas por estudante (em horas-aula) */
@@ -76,7 +93,10 @@ async function salvar() {
     }))
     resultado.value = await salvarChamada(aulaId.value, registros)
     alterada.value = false
-    if (chamada.value && resultado.value === 'enviada') chamada.value.aula.status = 'DADA'
+    if (chamada.value && resultado.value === 'enviada') {
+      chamada.value.aula.status = 'DADA'
+      await verificarAlertas(chamada.value.aula.turma_id, chamada.value.aula.data)
+    }
   } catch (e) {
     erro.value = (e as Error).message
   } finally {
@@ -162,6 +182,14 @@ onMounted(carregar)
 
         <div class="rodape">
           <BrMessage v-if="resultado === 'enviada'" estado="success">Chamada salva.</BrMessage>
+          <BrMessage
+            v-if="resultado === 'enviada' && novosAlertas.length"
+            estado="warning"
+            titulo="Avisar o SISAE:"
+          >
+            {{ novosAlertas.map((a) => `${a.estudante_nome} (${descreverAlerta(a)})`).join('; ') }}.
+            <RouterLink to="/alertas">Ver alertas</RouterLink>
+          </BrMessage>
           <BrMessage v-if="resultado === 'pendente'" estado="warning">
             Sem conexão: chamada guardada no aparelho. Ela será enviada automaticamente quando a
             internet voltar.

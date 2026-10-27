@@ -460,10 +460,95 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/alertas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_alertas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/alertas/resumo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resumo */
+        get: operations["resumo_api_alertas_resumo_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/alertas/{alerta_id}/resolver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resolver */
+        post: operations["resolver_api_alertas__alerta_id__resolver_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AlertaSaida */
+        AlertaSaida: {
+            /** Id */
+            id: number;
+            /** Turma Id */
+            turma_id: number;
+            /** Disciplina */
+            disciplina: string;
+            /** Turma Nome */
+            turma_nome: string;
+            /** Estudante Id */
+            estudante_id: number;
+            /** Estudante Nome */
+            estudante_nome: string;
+            /** Matricula */
+            matricula: string;
+            /** Email Responsavel */
+            email_responsavel: string | null;
+            tipo: components["schemas"]["TipoAlerta"];
+            /** Limite */
+            limite: number;
+            /**
+             * Data Gatilho
+             * Format: date
+             */
+            data_gatilho: string;
+            /** Datas */
+            datas: string[];
+            status: components["schemas"]["StatusAlerta"];
+            /** Resolvido Em */
+            resolvido_em: string | null;
+            /** Observacao */
+            observacao: string | null;
+        };
         /** AulaDoDia */
         AulaDoDia: {
             /** Id */
@@ -900,16 +985,37 @@ export interface components {
             /** Faltas */
             faltas: number;
         };
+        /** ResolucaoEntrada */
+        ResolucaoEntrada: {
+            status: components["schemas"]["StatusAlerta"];
+            /** Observacao */
+            observacao?: string | null;
+        };
+        /** ResumoAlertas */
+        ResumoAlertas: {
+            /** Pendentes */
+            pendentes: number;
+        };
         /** Saude */
         Saude: {
             /** Status */
             status: string;
         };
         /**
+         * StatusAlerta
+         * @enum {string}
+         */
+        StatusAlerta: "PENDENTE" | "AVISADO" | "DESCARTADO";
+        /**
          * StatusAula
          * @enum {string}
          */
         StatusAula: "PREVISTA" | "DADA" | "CANCELADA";
+        /**
+         * TipoAlerta
+         * @enum {string}
+         */
+        TipoAlerta: "CONSECUTIVAS" | "ALTERNADAS";
         /** TurmaEntrada */
         TurmaEntrada: {
             /** Disciplina */
@@ -2302,6 +2408,108 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RegistroConteudoDados"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_alertas_get: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["StatusAlerta"] | null;
+                turma_id?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertaSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    resumo_api_alertas_resumo_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResumoAlertas"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    resolver_api_alertas__alerta_id__resolver_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                alerta_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResolucaoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertaSaida"];
                 };
             };
             /** @description Validation Error */
