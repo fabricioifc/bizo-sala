@@ -231,8 +231,10 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
 
 ## Prioridade de entrega (MVP)
 1. Docker dev/prod, esqueleto FastAPI + Vue, autenticação, PWA básica
-   - Componentes `Br*` já existentes: BrButton, BrInput, BrMessage, BrCard, BrHeader.
-     Criar os demais conforme as telas precisarem.
+   - Componentes `Br*` já existentes: BrButton, BrInput, BrSelect, BrCheckbox, BrMessage,
+     BrCard, BrHeader, BrModal, BrTable. Criar os demais conforme as telas precisarem.
+   - Datas usam `BrInput type="date"` (nativo, bom no celular) em vez do datetimepicker
+     do DS, que depende de flatpickr.
 2. Telas de cadastro (CRUD) de cursos, períodos, dias não letivos, turmas e estudantes
    (importação via CSV) — não há painel admin pronto, então o CRUD faz parte do MVP
 3. Calendário de aulas, chamada (celular) e carga horária

@@ -3,8 +3,7 @@
 import { computed, ref, useId } from 'vue'
 
 import BrButton from './BrButton.vue'
-
-type Estado = 'danger' | 'success' | 'warning' | 'info'
+import type { Estado } from './tipos'
 
 const props = withDefaults(
   defineProps<{
@@ -14,6 +13,9 @@ const props = withDefaults(
     autocomplete?: string
     required?: boolean
     disabled?: boolean
+    min?: number | string
+    max?: number | string
+    step?: number | string
     densidade?: 'small' | 'medium' | 'large'
     estado?: Estado
     /** Mensagem exibida abaixo do campo (erro, sucesso, aviso ou informação) */
@@ -22,7 +24,8 @@ const props = withDefaults(
   { type: 'text', densidade: 'medium' },
 )
 
-const valor = defineModel<string>({ default: '' })
+// Com type="number" o v-model nativo do Vue já converte para número
+const valor = defineModel<string | number | null>({ default: '' })
 
 const id = useId()
 const idMensagem = `${id}-mensagem`
@@ -53,6 +56,9 @@ const iconesEstado: Record<Estado, string> = {
       :autocomplete="autocomplete"
       :required="required"
       :disabled="disabled"
+      :min="min"
+      :max="max"
+      :step="step"
       :aria-invalid="estado === 'danger' || undefined"
       :aria-describedby="mensagem ? idMensagem : undefined"
     />

@@ -6,6 +6,20 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'painel', component: () => import('@/views/PainelView.vue') },
+    { path: '/turmas', name: 'turmas', component: () => import('@/views/TurmasView.vue') },
+    {
+      path: '/turmas/:id/estudantes',
+      name: 'turma-estudantes',
+      component: () => import('@/views/TurmaEstudantesView.vue'),
+      props: true,
+    },
+    { path: '/cursos', name: 'cursos', component: () => import('@/views/CursosView.vue') },
+    { path: '/periodos', name: 'periodos', component: () => import('@/views/PeriodosView.vue') },
+    {
+      path: '/dias-nao-letivos',
+      name: 'dias-nao-letivos',
+      component: () => import('@/views/DiasNaoLetivosView.vue'),
+    },
     {
       path: '/entrar',
       name: 'entrar',

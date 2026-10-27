@@ -5,6 +5,8 @@ services:
       - "5432:5432"
 
   api:
+    # Tag própria: builds de dev e prod não sobrescrevem a imagem um do outro
+    image: bizo-sala-api:dev
     build:
       target: dev
     environment:
@@ -20,6 +22,7 @@ services:
       - "8000:8000"
 
   web:
+    image: bizo-sala-web:dev
     build:
       context: ./frontend
       target: dev

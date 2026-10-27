@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
 
   api:
+    image: bizo-sala-api:prod
     build:
       target: prod
     restart: unless-stopped
@@ -12,6 +13,7 @@ services:
       COOKIE_SECURE: "true"
 
   nginx:
+    image: bizo-sala-nginx:prod
     build:
       context: ./frontend
       target: prod

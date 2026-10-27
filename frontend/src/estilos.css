@@ -50,3 +50,46 @@
 body {
   background: var(--gray-2);
 }
+
+/* Formulários dos modais de cadastro */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-scale-2x);
+}
+
+.formulario fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.formulario legend {
+  font-weight: var(--font-weight-semi-bold);
+  margin-bottom: var(--spacing-scale-base);
+}
+
+/* Campos lado a lado que quebram no celular */
+.linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-scale-2x);
+}
+
+.linha > * {
+  flex: 1 1 160px;
+}
+
+.linha > legend {
+  flex-basis: 100%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

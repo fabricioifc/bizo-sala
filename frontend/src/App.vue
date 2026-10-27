@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
+import NavegacaoPrincipal from '@/components/NavegacaoPrincipal.vue'
 import { BrButton, BrHeader } from '@/components/govbr'
 import { useAuthStore } from '@/stores/auth'
 
@@ -20,6 +21,7 @@ async function sair() {
       <BrButton icone="fas fa-sign-out-alt" densidade="small" @click="sair">Sair</BrButton>
     </template>
   </BrHeader>
+  <NavegacaoPrincipal v-if="auth.usuario" />
   <main class="container-lg py-3">
     <RouterView />
   </main>

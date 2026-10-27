@@ -5,18 +5,18 @@ import BrInput from '../BrInput.vue'
 
 describe('BrInput', () => {
   it('associa o rótulo ao campo e atualiza o v-model', async () => {
-    const wrapper = mount(BrInput, {
-      props: {
-        rotulo: 'E-mail',
-        modelValue: '',
-        'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v }),
-      },
-    })
+    const wrapper = mount(BrInput, { props: { rotulo: 'E-mail', modelValue: '' } })
     const input = wrapper.get('input')
     expect(wrapper.get('label').attributes('for')).toBe(input.attributes('id'))
 
     await input.setValue('professor@ifc.edu.br')
-    expect(wrapper.props('modelValue')).toBe('professor@ifc.edu.br')
+    expect(wrapper.emitted('update:modelValue')).toEqual([['professor@ifc.edu.br']])
+  })
+
+  it('converte para número quando type="number"', async () => {
+    const wrapper = mount(BrInput, { props: { rotulo: 'Horas', type: 'number', modelValue: 60 } })
+    await wrapper.get('input').setValue('120')
+    expect(wrapper.emitted('update:modelValue')).toEqual([[120]])
   })
 
   it('alterna a visibilidade da senha', async () => {
