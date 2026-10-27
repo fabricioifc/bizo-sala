@@ -1,0 +1,44 @@
+# Uso: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+services:
+  db:
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      target: dev
+    environment:
+      COOKIE_SECURE: "false"
+      TEST_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}_test
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      # Bind mount do Windows não propaga eventos de arquivo para o container
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: ./frontend
+      target: dev
+    command: sh -c "npm install && npm run dev"
+    environment:
+      API_URL: http://api:8000
+      VITE_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - web-node-modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+
+volumes:
+  web-node-modules:

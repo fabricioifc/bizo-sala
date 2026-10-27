@@ -1,0 +1,33 @@
+# Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  db:
+    restart: unless-stopped
+
+  api:
+    build:
+      target: prod
+    restart: unless-stopped
+    environment:
+      COOKIE_SECURE: "true"
+
+  caddy:
+    build:
+      context: ./frontend
+      target: prod
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    depends_on:
+      - api
+
+volumes:
+  caddy-data:
+  caddy-config:
