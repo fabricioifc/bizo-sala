@@ -11,6 +11,33 @@ export function formatarData(iso: string | null | undefined): string {
   return `${dia}/${mes}/${ano}`
 }
 
+/** Dia da semana (0 = segunda) de uma data ISO, sem depender do fuso */
+export function diaDaSemana(iso: string): number {
+  const [ano, mes, dia] = iso.split('-').map(Number)
+  return (new Date(Date.UTC(ano!, mes! - 1, dia!)).getUTCDay() + 6) % 7
+}
+
+/** `2026-03-04` → `Qua, 04/03` */
+export function formatarDataCurta(iso: string): string {
+  const [, mes, dia] = iso.split('-')
+  return `${DIAS_SEMANA[diaDaSemana(iso)]!.slice(0, 3)}, ${dia}/${mes}`
+}
+
+export function nomeDoMes(iso: string): string {
+  const [ano, mes] = iso.split('-').map(Number)
+  const nome = new Date(Date.UTC(ano!, mes! - 1, 1)).toLocaleString('pt-BR', {
+    month: 'long',
+    timeZone: 'UTC',
+  })
+  return `${nome.charAt(0).toUpperCase()}${nome.slice(1)} de ${ano}`
+}
+
+/** Data de hoje no fuso local, em ISO (`2026-10-27`) */
+export function hojeIso(): string {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 export function formatarNumero(valor: number, casas = 1): string {
   return valor.toLocaleString('pt-BR', {
     minimumFractionDigits: casas,

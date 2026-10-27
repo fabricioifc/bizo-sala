@@ -7,10 +7,29 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'painel', component: () => import('@/views/PainelView.vue') },
     { path: '/turmas', name: 'turmas', component: () => import('@/views/TurmasView.vue') },
+    { path: '/turmas/:id', redirect: (to) => `/turmas/${to.params.id}/aulas` },
+    {
+      path: '/turmas/:id/aulas',
+      name: 'turma-aulas',
+      component: () => import('@/views/TurmaAulasView.vue'),
+      props: true,
+    },
     {
       path: '/turmas/:id/estudantes',
       name: 'turma-estudantes',
       component: () => import('@/views/TurmaEstudantesView.vue'),
+      props: true,
+    },
+    {
+      path: '/turmas/:id/conteudo',
+      name: 'turma-conteudo',
+      component: () => import('@/views/TurmaConteudoView.vue'),
+      props: true,
+    },
+    {
+      path: '/aulas/:id/chamada',
+      name: 'chamada',
+      component: () => import('@/views/ChamadaView.vue'),
       props: true,
     },
     { path: '/cursos', name: 'cursos', component: () => import('@/views/CursosView.vue') },

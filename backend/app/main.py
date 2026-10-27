@@ -1,7 +1,16 @@
 from fastapi import APIRouter, FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.api import auth, cursos, dias_nao_letivos, estudantes, periodos, saude, turmas
+from app.api import (
+    aulas,
+    auth,
+    cursos,
+    dias_nao_letivos,
+    estudantes,
+    periodos,
+    saude,
+    turmas,
+)
 from app.services.erros import ErroDeNegocio
 
 app = FastAPI(
@@ -26,4 +35,5 @@ api.include_router(periodos.router)
 api.include_router(dias_nao_letivos.router)
 api.include_router(turmas.router)
 api.include_router(estudantes.router)
+api.include_router(aulas.router)
 app.include_router(api)

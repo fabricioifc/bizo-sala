@@ -2,10 +2,11 @@
 import { computed, onMounted, ref } from 'vue'
 
 import { api, exigir, type Estudante, type EstudanteEntrada, type Turma } from '@/api/client'
+import CabecalhoTurma from '@/components/CabecalhoTurma.vue'
 import ImportarEstudantes from '@/components/ImportarEstudantes.vue'
 import ModalConfirmacao from '@/components/ModalConfirmacao.vue'
 import { BrButton, BrCheckbox, BrInput, BrMessage, BrModal, BrTable } from '@/components/govbr'
-import { DIAS_SEMANA, formatarData } from '@/utils/formato'
+import { formatarData } from '@/utils/formato'
 import { textoOuNulo } from '@/utils/formulario'
 
 const props = defineProps<{ id: string }>()
@@ -107,27 +108,10 @@ onMounted(carregar)
 </script>
 
 <template>
-  <nav class="br-breadcrumb" aria-label="Breadcrumbs">
-    <ol class="crumb-list">
-      <li class="crumb"><RouterLink to="/turmas">Turmas</RouterLink></li>
-      <li class="crumb" data-active="active">
-        <i class="icon fas fa-chevron-right" aria-hidden="true"></i>
-        <span>Estudantes</span>
-      </li>
-    </ol>
-  </nav>
-
   <BrMessage v-if="erroCarga" estado="danger">{{ erroCarga }}</BrMessage>
 
   <template v-if="turma">
-    <h1 class="mb-1">{{ turma.disciplina }} – {{ turma.nome }}</h1>
-    <p class="text-down-01">
-      {{ turma.curso_nome }} · {{ turma.periodo_nome }} · {{ turma.carga_horaria_horas }} h ({{
-        turma.horas_aula_previstas
-      }}
-      horas-aula) ·
-      {{ turma.horarios.map((h) => `${DIAS_SEMANA[h.dia_semana]} (${h.aulas})`).join(', ') }}
-    </p>
+    <CabecalhoTurma :turma="turma" aba="estudantes" />
 
     <BrTable
       :titulo="`Estudantes (${ativos} ativos)`"

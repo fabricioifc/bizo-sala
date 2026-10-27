@@ -192,7 +192,7 @@ onMounted(carregar)
     <tbody>
       <tr v-for="turma in turmas" :key="turma.id">
         <td>
-          <RouterLink :to="`/turmas/${turma.id}/estudantes`">{{ turma.disciplina }}</RouterLink>
+          <RouterLink :to="`/turmas/${turma.id}/aulas`">{{ turma.disciplina }}</RouterLink>
         </td>
         <td>{{ turma.nome }}</td>
         <td>

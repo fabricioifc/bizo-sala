@@ -127,9 +127,11 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
 - **Estudante**: nome, matrícula, e-mail, data de nascimento (menoridade), ativo;
   e-mail do responsável (EMI, opcional)
 - **Aula** (encontro): turma, data, nº de horas-aula, status
-  (`PREVISTA` | `DADA` | `CANCELADA`), motivo do cancelamento
-- **Frequencia**: estudante × aula × hora-aula, presente/falta (OD art. 225: registro por hora-aula)
-- **RegistroConteudo**: turma, data_inicio, data_fim, texto curto (cobre 1+ aulas)
+  (`PREVISTA` | `DADA` | `CANCELADA`), origem (`GRADE` | `EXTRA`), motivo do cancelamento.
+  Pode haver mais de uma aula no mesmo dia (aulas extras).
+- **Frequencia**: estudante × aula → nº de faltas de 0 a N horas-aula da aula
+  (OD art. 225; ex.: chegou atrasado numa aula dupla = 1 falta)
+- **RegistroConteudo**: turma, data_inicio, data_fim, texto curto (cobre 1+ dias de aula)
 - **Avaliacao**: turma, ciclo, nome, data, peso, tipo (`REGULAR` | `RECUPERACAO` | `EXAME`),
   avaliação(ões) que a recuperação substitui (ou o ciclo inteiro)
 - **Substituicao**: estudante × avaliação de recuperação × avaliação substituída
@@ -149,7 +151,12 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
    60 h = 72 horas-aula; 120 h = 144 horas-aula.
 2. Painel da turma: previsto × dado × saldo e **projeção** até o fim do período
    (calendário da turma − dias não letivos − cancelamentos). Alertar se não fechar.
-3. Aulas `CANCELADA` não contam carga horária e não têm chamada.
+3. Aulas `CANCELADA` não contam carga horária e não têm chamada (cancelar descarta a chamada).
+3a. O calendário é gerado pelos horários da turma em todo o período, pulando dias não
+    letivos; gerar de novo só cria o que falta. Aulas passadas **ficam em aberto**
+    (`PREVISTA`) até a chamada ser feita — nunca marcar presença/falta automaticamente.
+3b. Chamada offline: marcações em IndexedDB (Dexie) e envio idempotente
+    (`PUT /aulas/{id}/chamada` substitui a chamada inteira).
 
 ### Frequência e alerta ao SISAE
 4. Alerta (somente EMI): estudante com falta em **2 encontros (dias) consecutivos**
@@ -163,8 +170,10 @@ componentes (PrimeVue, Vuetify, Bootstrap, Tailwind etc.).
    destacar quem está em risco.
 
 ### Registro de conteúdo
-7. Um registro pode cobrir um intervalo de datas, inclusive futuras. Mostrar aulas
-   `DADA` sem conteúdo registrado.
+7. Tela própria (separada da chamada), com um campo por dia de aula do período inteiro;
+   o professor junta dias vizinhos num só registro ou os separa. Um registro cobre um
+   intervalo de datas, inclusive futuras (planejamento do ano). Salvar substitui todos os
+   registros da turma (`PUT /turmas/{id}/conteudos`).
 
 ### Notas
 8. Nota do ciclo = Σ(nota × peso) ÷ Σ(pesos), arredondada a uma casa decimal.

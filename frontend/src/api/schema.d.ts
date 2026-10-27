@@ -286,10 +286,315 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/turmas/{turma_id}/aulas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar */
+        get: operations["listar_api_turmas__turma_id__aulas_get"];
+        put?: never;
+        /** Adicionar Extra */
+        post: operations["adicionar_extra_api_turmas__turma_id__aulas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/aulas/gerar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Gerar */
+        post: operations["gerar_api_turmas__turma_id__aulas_gerar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/carga-horaria": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Carga Horaria */
+        get: operations["carga_horaria_api_turmas__turma_id__carga_horaria_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/frequencia": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Frequencia */
+        get: operations["frequencia_api_turmas__turma_id__frequencia_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/aulas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Aulas Do Dia */
+        get: operations["aulas_do_dia_api_aulas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/aulas/{aula_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Editar */
+        put: operations["editar_api_aulas__aula_id__put"];
+        post?: never;
+        /** Excluir */
+        delete: operations["excluir_api_aulas__aula_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/aulas/{aula_id}/cancelar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancelar */
+        post: operations["cancelar_api_aulas__aula_id__cancelar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/aulas/{aula_id}/reabrir": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reabrir */
+        post: operations["reabrir_api_aulas__aula_id__reabrir_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/aulas/{aula_id}/chamada": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Obter Chamada */
+        get: operations["obter_chamada_api_aulas__aula_id__chamada_get"];
+        /** Salvar Chamada */
+        put: operations["salvar_chamada_api_aulas__aula_id__chamada_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/turmas/{turma_id}/conteudos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar Conteudos */
+        get: operations["listar_conteudos_api_turmas__turma_id__conteudos_get"];
+        /** Salvar Conteudos */
+        put: operations["salvar_conteudos_api_turmas__turma_id__conteudos_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AulaDoDia */
+        AulaDoDia: {
+            /** Id */
+            id: number;
+            /** Turma Id */
+            turma_id: number;
+            /**
+             * Data
+             * Format: date
+             */
+            data: string;
+            /** Horas Aula */
+            horas_aula: number;
+            status: components["schemas"]["StatusAula"];
+            origem: components["schemas"]["OrigemAula"];
+            /** Motivo Cancelamento */
+            motivo_cancelamento: string | null;
+            /**
+             * Dia Nao Letivo
+             * @description Descrição, se a data estiver cadastrada como não letiva
+             */
+            dia_nao_letivo?: string | null;
+            /** Disciplina */
+            disciplina: string;
+            /** Turma Nome */
+            turma_nome: string;
+        };
+        /** AulaEntrada */
+        AulaEntrada: {
+            /**
+             * Data
+             * Format: date
+             */
+            data: string;
+            /**
+             * Horas Aula
+             * @description Horas-aula de 50 min
+             */
+            horas_aula: number;
+        };
+        /** AulaSaida */
+        AulaSaida: {
+            /** Id */
+            id: number;
+            /** Turma Id */
+            turma_id: number;
+            /**
+             * Data
+             * Format: date
+             */
+            data: string;
+            /** Horas Aula */
+            horas_aula: number;
+            status: components["schemas"]["StatusAula"];
+            origem: components["schemas"]["OrigemAula"];
+            /** Motivo Cancelamento */
+            motivo_cancelamento: string | null;
+            /**
+             * Dia Nao Letivo
+             * @description Descrição, se a data estiver cadastrada como não letiva
+             */
+            dia_nao_letivo?: string | null;
+        };
+        /** CancelamentoEntrada */
+        CancelamentoEntrada: {
+            /** Motivo */
+            motivo: string;
+        };
+        /** CargaHorariaSaida */
+        CargaHorariaSaida: {
+            /**
+             * Meta
+             * @description Horas-aula necessárias para a carga horária
+             */
+            meta: number;
+            /** Dadas */
+            dadas: number;
+            /**
+             * Previstas
+             * @description Horas-aula ainda sem chamada (passadas e futuras)
+             */
+            previstas: number;
+            /**
+             * Em Aberto
+             * @description Horas-aula passadas ainda sem chamada
+             */
+            em_aberto: number;
+            /** Aulas Em Aberto */
+            aulas_em_aberto: number;
+            /** Canceladas */
+            canceladas: number;
+            /**
+             * Projecao
+             * @description Dadas + previstas
+             */
+            projecao: number;
+            /**
+             * Saldo
+             * @description Projeção menos meta (negativo = vai faltar)
+             */
+            saldo: number;
+        };
+        /** ChamadaEntrada */
+        ChamadaEntrada: {
+            /** Registros */
+            registros: components["schemas"]["RegistroFalta"][];
+        };
+        /** ChamadaEstudante */
+        ChamadaEstudante: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Nome */
+            nome: string;
+            /** Matricula */
+            matricula: string;
+            /**
+             * Faltas
+             * @description None = sem registro nesta aula
+             */
+            faltas: number | null;
+        };
+        /** ChamadaSaida */
+        ChamadaSaida: {
+            aula: components["schemas"]["AulaSaida"];
+            /** Disciplina */
+            disciplina: string;
+            /** Turma Nome */
+            turma_nome: string;
+            /** Estudantes */
+            estudantes: components["schemas"]["ChamadaEstudante"][];
+        };
         /** CicloEntrada */
         CicloEntrada: {
             /** Nome */
@@ -419,6 +724,33 @@ export interface components {
             /** Ativo */
             ativo: boolean;
         };
+        /** FrequenciaEstudante */
+        FrequenciaEstudante: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Nome */
+            nome: string;
+            /** Matricula */
+            matricula: string;
+            /** Ativo */
+            ativo: boolean;
+            /** Faltas */
+            faltas: number;
+            /** Horas Aula Registradas */
+            horas_aula_registradas: number;
+            /** Percentual Presenca */
+            percentual_presenca: number | null;
+            /**
+             * Faltas Restantes
+             * @description Faltas ainda possíveis sem ficar abaixo de 75%
+             */
+            faltas_restantes: number;
+        };
+        /** GeracaoResultado */
+        GeracaoResultado: {
+            /** Criadas */
+            criadas: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -490,6 +822,11 @@ export interface components {
          * @enum {string}
          */
         Nivel: "EMI" | "GRADUACAO";
+        /**
+         * OrigemAula
+         * @enum {string}
+         */
+        OrigemAula: "GRADE" | "EXTRA";
         /** PeriodoEntrada */
         PeriodoEntrada: {
             /** Nome */
@@ -541,11 +878,38 @@ export interface components {
          * @enum {string}
          */
         Regime: "ANUAL" | "SEMESTRAL";
+        /** RegistroConteudoDados */
+        RegistroConteudoDados: {
+            /**
+             * Data Inicio
+             * Format: date
+             */
+            data_inicio: string;
+            /**
+             * Data Fim
+             * Format: date
+             */
+            data_fim: string;
+            /** Texto */
+            texto: string;
+        };
+        /** RegistroFalta */
+        RegistroFalta: {
+            /** Estudante Id */
+            estudante_id: number;
+            /** Faltas */
+            faltas: number;
+        };
         /** Saude */
         Saude: {
             /** Status */
             status: string;
         };
+        /**
+         * StatusAula
+         * @enum {string}
+         */
+        StatusAula: "PREVISTA" | "DADA" | "CANCELADA";
         /** TurmaEntrada */
         TurmaEntrada: {
             /** Disciplina */
@@ -1458,6 +1822,486 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EstudanteSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_api_turmas__turma_id__aulas_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    adicionar_extra_api_turmas__turma_id__aulas_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AulaEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    gerar_api_turmas__turma_id__aulas_gerar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeracaoResultado"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    carga_horaria_api_turmas__turma_id__carga_horaria_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CargaHorariaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    frequencia_api_turmas__turma_id__frequencia_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FrequenciaEstudante"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    aulas_do_dia_api_aulas_get: {
+        parameters: {
+            query: {
+                data: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaDoDia"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    editar_api_aulas__aula_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AulaEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    excluir_api_aulas__aula_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancelar_api_aulas__aula_id__cancelar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelamentoEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reabrir_api_aulas__aula_id__reabrir_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    obter_chamada_api_aulas__aula_id__chamada_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChamadaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    salvar_chamada_api_aulas__aula_id__chamada_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                aula_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChamadaEntrada"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AulaSaida"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listar_conteudos_api_turmas__turma_id__conteudos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistroConteudoDados"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    salvar_conteudos_api_turmas__turma_id__conteudos_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                turma_id: number;
+            };
+            cookie?: {
+                bizo_sessao?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistroConteudoDados"][];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistroConteudoDados"][];
                 };
             };
             /** @description Validation Error */
